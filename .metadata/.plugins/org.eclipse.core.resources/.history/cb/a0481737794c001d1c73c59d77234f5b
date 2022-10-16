@@ -1,0 +1,35 @@
+package com.example.demo.services;
+
+import java.util.Optional;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.example.demo.Dao.EmployeeDao;
+import com.example.demo.Dao.TaskDao;
+import com.example.demo.Exception.EmployeeException;
+import com.example.demo.bean.Employee;
+import com.example.demo.bean.Task;
+
+@Service
+public class TaskServiceImpl implements TaskService{
+
+	@Autowired
+	TaskDao taskDao ;
+	
+	@Autowired
+	EmployeeDao empDao ;
+	
+	@Override
+	public Task addTask(Task task)throws EmployeeException {
+		Integer id = task.getEmployeeId() ;
+		Optional<Employee> opt = empDao.findById(id) ;
+		
+		if(opt.isEmpty()) {
+			throw new EmployeeException("Task Assigned Employee is not Exist") ;
+		}
+		
+		return taskDao.save(task) ;
+	}
+
+}

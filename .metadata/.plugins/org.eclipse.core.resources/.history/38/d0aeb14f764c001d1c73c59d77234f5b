@@ -1,0 +1,28 @@
+package com.example.demo.Controller;
+
+import javax.validation.Valid;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.example.demo.bean.Task;
+import com.example.demo.services.TaskService;
+
+@RestController
+public class TaskController {
+
+	@Autowired
+	TaskService taskSer ;
+	
+	@PostMapping("/task")
+	public ResponseEntity<Task> addTask(@Valid @RequestBody Task task) {
+		Task task1 = taskSer.addTask(task) ;
+		
+		return new ResponseEntity<Task>(task1 ,HttpStatus.CREATED) ;
+	}
+}

@@ -1,0 +1,14 @@
+package com.example.demo.services;
+
+import com.example.demo.Exception.EmployeeException;
+import com.example.demo.bean.Employee;
+
+public interface EmployeeService {
+
+	public Employee addEmployee(Employee emp) ;
+	
+	public Employee getEmployeeById(Integer id) throws EmployeeException ;
+	
+	public Employee deleteEmployee(Integer id) ;
+	
+}

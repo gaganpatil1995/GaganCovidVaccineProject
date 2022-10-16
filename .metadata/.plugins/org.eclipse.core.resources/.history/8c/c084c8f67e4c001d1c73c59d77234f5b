@@ -1,0 +1,67 @@
+package com.example.demo.Controller;
+
+import javax.validation.Valid;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.example.demo.Exception.EmployeeException;
+import com.example.demo.Exception.TaskException;
+import com.example.demo.bean.Task;
+import com.example.demo.services.TaskService;
+
+@RestController
+public class TaskController {
+
+	@Autowired
+	TaskService taskSer ;
+	
+	@PostMapping("/task")
+	public ResponseEntity<Task> addTask(@Valid @RequestBody Task task) throws EmployeeException {
+		Task task1 = taskSer.addTask(task) ;
+		
+		return new ResponseEntity<Task>(task1 ,HttpStatus.CREATED) ;
+	}
+	
+	@GetMapping("/task/{id}")
+	public ResponseEntity<Task> GetTaskByid(@PathVariable Integer id) throws TaskException{
+		
+		Task task = taskSer.getTaskByid(id) ;
+		
+		return new ResponseEntity<Task>(task ,HttpStatus.FOUND) ;
+		
+		
+	}
+	@GetMapping("/taskByEmp/{empid}")
+	public ResponseEntity<Task> GetTaskByEmplid(@PathVariable Integer id) throws TaskException, EmployeeException{
+		
+		Task task = taskSer.getTaskBYEmployeeId(id) ;
+		
+		return new ResponseEntity<Task>(task ,HttpStatus.FOUND) ;
+		
+		
+	}
+	
+	@PatchMapping("/task")
+	public ResponseEntity<Task> updateTaskById(@RequestBody Task task ) throws EmployeeException, TaskException{
+		
+		Task task1 = taskSer.updateTaskById(task) ;
+		
+		return new ResponseEntity<Task>(task1 ,HttpStatus.ACCEPTED) ;
+	}
+	
+	@DeleteMapping("/task/{id}")
+	public ResponseEntity<String> deleteTaskById(@PathVariable Integer id) throws TaskException{
+		String str = taskSer.DeleteTaskByid(id) ;
+		
+		return new ResponseEntity<String>(str ,HttpStatus.GONE) ;
+	}
+}

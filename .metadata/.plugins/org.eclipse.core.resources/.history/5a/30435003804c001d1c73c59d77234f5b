@@ -1,0 +1,17 @@
+package com.example.demo.services;
+
+import org.springframework.stereotype.Service;
+
+import com.example.demo.Exception.EmployeeException;
+import com.example.demo.bean.Employee;
+
+@Service
+public interface EmployeeService {
+
+	public Employee addEmployee(Employee emp) ;
+	
+	public Employee getEmployeeById(Integer id) throws EmployeeException ;
+	
+	public Employee deleteEmployee(Integer id) ;
+	
+}

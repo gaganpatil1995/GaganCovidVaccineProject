@@ -1,0 +1,49 @@
+package com.example.demo.Controller;
+
+import javax.validation.Valid;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.example.demo.Exception.EmployeeException;
+import com.example.demo.Exception.TaskException;
+import com.example.demo.bean.Employee;
+import com.example.demo.services.EmployeeService;
+
+@RestController
+public class EmployeeController {
+
+	@Autowired
+	EmployeeService empSer ;
+	
+	@PostMapping("/employee")
+	public ResponseEntity<Employee> addEmployee(@Valid @RequestBody Employee emp) throws EmployeeException{
+		Employee emp1 = empSer.addEmployee(emp) ;
+		
+		return new ResponseEntity<Employee>(emp1 ,HttpStatus.ACCEPTED) ;
+	}
+	
+	@GetMapping("/employee/{id}")
+	public ResponseEntity<Employee> getEmployee(@PathVariable("id") Integer id) throws EmployeeException{
+		
+		Employee emp = empSer.getEmployeeById(id) ;
+		
+		return new ResponseEntity<Employee>(emp , HttpStatus.FOUND) ;
+	}
+	
+	@PostMapping("/employee/{id}")
+	public ResponseEntity<Employee> deleteEmployee(@PathVariable Integer id) throws EmployeeException, TaskException{
+		Employee emp1 = empSer.deleteEmployee(id) ;
+		
+		return new ResponseEntity<Employee>(emp1 ,HttpStatus.ACCEPTED) ;
+	}
+	
+	
+	
+}

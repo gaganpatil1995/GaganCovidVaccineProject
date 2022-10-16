@@ -1,0 +1,12 @@
+package com.example.demo.services;
+
+import com.example.demo.bean.Employee;
+
+public interface EmployeeService {
+
+	public Employee addEmployee(Employee emp) ;
+	
+	public Employee getEmployeeById(Integer id) ;
+	
+	public Employee deleteEmployee(Integer id) ;
+}

@@ -1,0 +1,45 @@
+package com.example.demo.bean;
+
+import java.time.LocalDate;
+
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.validation.constraints.NotNull;
+
+import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.format.annotation.DateTimeFormat.ISO;
+
+import com.example.demo.Enum.Priority;
+
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+@Data
+@Entity
+@NoArgsConstructor
+@AllArgsConstructor
+public class Task {
+
+	
+	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	private Integer id  ;
+	
+	@NotNull(message = "Please Enter Title")
+	private String title ;
+	
+	@NotNull(message = "Please Enter description")
+	private String description ;
+	
+	@NotNull(message = "Please Enter status")
+	private Boolean status ;
+	
+	@NotNull(message = "Please Enter status")
+	private Priority priority ;
+	
+	@DateTimeFormat(iso = ISO.DATE)
+	private LocalDate deadLine ;
+}

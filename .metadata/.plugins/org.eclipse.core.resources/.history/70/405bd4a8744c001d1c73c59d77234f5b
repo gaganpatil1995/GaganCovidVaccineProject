@@ -1,0 +1,9 @@
+package com.example.demo.services;
+
+import com.example.demo.bean.Task;
+
+public interface TaskService {
+
+	
+	public Task addTask(Task task) ;
+}

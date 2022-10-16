@@ -1,0 +1,22 @@
+package com.example.demo.services;
+
+import org.springframework.stereotype.Service;
+
+import com.example.demo.Exception.EmployeeException;
+import com.example.demo.Exception.TaskException;
+import com.example.demo.bean.Task;
+
+@Service
+public interface TaskService {
+
+	
+	public Task addTask(Task task) throws EmployeeException ;
+	
+	public Task getTaskByid(Integer id)throws TaskException ;
+	
+	public Task getTaskBYEmployeeId(Integer empId) throws EmployeeException ,TaskException ;
+	
+	public Task updateTaskById(Task task)throws EmployeeException ,TaskException ;
+	
+	public String DeleteTaskByid(Integer id)throws TaskException ;
+}

@@ -1,0 +1,42 @@
+package com.example.demo.services;
+
+import java.util.Optional;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.example.demo.Dao.EmployeeDao;
+import com.example.demo.Exception.EmployeeException;
+import com.example.demo.bean.Employee;
+
+@Service
+public class EmployeeServiceImpl implements EmployeeService {
+
+	@Autowired
+	EmployeeDao empDao ;
+	
+	@Override
+	public Employee addEmployee(Employee emp) {
+		
+		return empDao.save(emp) ;
+		
+	}
+
+	@Override
+	public Employee getEmployeeById(Integer id) throws EmployeeException{
+		Optional<Employee> opt = empDao.findById(id) ;
+		
+		if(opt.isEmpty()) {
+			throw new  EmployeeException("Employee is not found with this Id") ;
+		}
+		
+		return opt.get() ;
+	}
+
+	@Override
+	public Employee deleteEmployee(Integer id) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+}

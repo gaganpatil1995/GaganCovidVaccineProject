@@ -1,0 +1,18 @@
+package com.example.demo.services;
+
+import org.springframework.beans.factory.annotation.Autowired;
+
+import com.example.demo.Dao.TaskDao;
+import com.example.demo.bean.Task;
+
+public class TaskServiceImpl implements TaskService{
+
+	@Autowired
+	TaskDao taskDao ;
+	
+	@Override
+	public Task addTask(Task task) {
+		return taskDao.save(task) ;
+	}
+
+}
