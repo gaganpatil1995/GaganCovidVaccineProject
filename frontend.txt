@@ -1,0 +1,191 @@
+//Todo 
+//maintain a list of items
+
+class Todo{
+
+    #items ;
+    #onStateUpdate ;
+    constructor(){
+        this.#items = [] ;
+        this.#onStateUpdate = null ;
+    }
+
+    get items(){
+        return this.#items ;
+    }
+
+    addTodo(value){
+        const item = {
+            id: new Date().toString()+value,
+            title: value,
+            status : false,
+        };
+        // this.#items.push(item) ;
+        // return this.#items.length ;
+       return fetch("https://json-server-mocker-masai.herokuapp.com/tasks" ,{
+        method:"POST",   
+        headers:{
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(item)
+        
+
+        } ).then( (res) =>{
+            console.log("Succes") ;
+            return this.getTodos() ;
+        } )
+        .catch((err)=>{
+            console.log("Error") ;
+        } )
+    }
+    toggleStatus(id,newStatus){
+        // this.#items = this.#items.map((item) => 
+        // item.id === id?{...item , status : !item.status}: item
+        // );
+
+        // this.#items.forEach((e)=>{
+        //     if(e.id===id){
+        //       e.status = !e.status ;
+        //     }
+        //   } )
+        return fetch("https://json-server-mocker-masai.herokuapp.com/tasks/"+id ,{
+        method:"PATCH",   
+        headers:{
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                status:newStatus
+            })
+        
+
+        } ).then( (res) =>{
+            console.log("Succes") ;
+            return this.getTodos() ;
+        } )
+        .catch((err)=>{
+            console.log("Error") ;
+        } )
+
+    }
+
+    deleteTodo(id){
+        return fetch("https://json-server-mocker-masai.herokuapp.com/tasks/"+id ,{
+        method:"DELETE",   
+        headers:{
+                "Content-Type": "application/json"
+            }
+           
+        
+
+        } ).then( (res) =>{
+            console.log("Succes") ;
+            return this.getTodos() ;
+        } )
+        .catch((err)=>{
+            console.log("Error") ;
+        } )
+    }
+
+    getTodos(){
+        return fetch("https://json-server-mocker-masai.herokuapp.com/tasks")
+        .then((res)=> res.json() )
+        .then( (res)=>{
+           this.#items= res ;
+           this.stateUpdateEvent() ;
+        } )
+        .catch((err)=>{} )
+    }
+
+    stateUpdateEvent(){
+        // alert("Update") ;
+
+
+        if(this.#onStateUpdate && typeof this.#onStateUpdate=== "function"){
+            this.#onStateUpdate() ;
+        }
+    }
+    addStateChangeCallback(func){
+        this.#onStateUpdate = func ;
+    }
+}
+
+const todo = new Todo() ;
+
+// todo.addTodo("Learn classes") ;
+// todo.addTodo("learn javaScript") ;
+// todo.toggleStatus(todo.items[0].id ) ;
+// todo.getTodos().then(()=> {
+//     console.log(todo.items)
+//     renderTodoList(todo.items) ;
+// } )
+ todo.addStateChangeCallback( function(){
+    renderTodoList(todo.items) ;
+ } )
+
+todo.getTodos() ;
+// console.log(todo.items) ;
+
+function renderTodoList(items){
+const target = document.getElementById("todo-items") ;
+const itemElements = items.map((item)=> createTodoCard(item) ) ;
+target.innerHTML = null ;
+target.append(...itemElements) ;
+}
+
+function createTodoCard(item){
+     const div = document.createElement("div") ;
+     const title = document.createElement("p");
+      const button = document.createElement("button") ;
+      const del = document.createElement("button");
+     del.textContent = "delete" ;
+     
+      title.textContent = item.title ;
+     button.textContent = item.status ;
+
+     
+     div.append(title,button,del) ;
+
+     button.addEventListener("click" ,()=>{
+        todo.toggleStatus(item.id, !item.status) ;
+     } )
+     del.addEventListener("click" ,()=>{
+        todo.deleteTodo(item.id) ;
+     } )
+     return div;
+}
+
+window.addEventListener("load" ,()=>{
+    const addBtn = document.getElementById("add-todo") ;
+    addBtn.addEventListener("click",()=>{
+    const input = document.getElementById("todo-input") ;
+     const title = input.value ;
+     todo.addTodo(title).then( (res)=>{
+        renderTodoList(todo.items) ;
+     } )
+
+    } )
+} )
+
+
+index/////////////////////////////////
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1>Todo Task</h1>
+    <div>
+        <input id="todo-input" placeholder="Add something">
+    </div>
+    <button id="add-todo"> Add Todo </button>
+
+    <div id="todo-items"></div>
+</body>
+</html>
+<script src="./Todo.js">
+
+</script>
