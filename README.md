@@ -36,12 +36,12 @@
 
 ## Contributors
 
-* [@Micheal George](https://github.com/Micheal-George)
-* [@Shivam Maheshwari](https://github.com/shivamgarg796)
-* [@Avinash Kumar](https://github.com/avinash-here)
-* [@Gaurav Singh](https://github.com/GauravSinghh)
-* [@Md Farhan Nawaz](https://github.com/nvFARHAN)
-* [@Moh Shahrukh Khan](https://github.com/MohShahrukhKhan)
+Gagan Patil
+Abbas Ghaniwala
+Shubhan Agnihotri
+Ankit Shah
+Akash Singh
+
 
 
 
